@@ -1,14 +1,9 @@
 FROM scratch
 
-# registry/ 由 sealos build 时从 manifests 引用的镜像（ghcr.io/vlee0203/proxy-service:<tag>）
-# 自动拉取生成（OCI layout）。必须 COPY 进镜像，sealos run 时才会加载进集群 containerd，
-# 使 app 镜像随集群镜像自带（离线/无外网也可用）。
 COPY registry registry
 COPY manifests manifests
 COPY scripts scripts
 
-# 运行时配置：可用 `sealos run --env <name>=<value>` 覆盖。
-# cloudDomain 用于拼 Ingress 域名：dify-marketplace-proxy.<cloudDomain>
 ENV cloudDomain="127.0.0.1.nip.io"
 ENV target="https://marketplace.dify.ai"
 ENV httpsProxy=""

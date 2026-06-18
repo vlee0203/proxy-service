@@ -4,7 +4,6 @@ metadata:
   annotations:
     deploy.cloud.sealos.io/maxReplicas: "1"
     deploy.cloud.sealos.io/minReplicas: "1"
-    # IMAGE_TAG 由 GitHub Actions job2 在 sealos build 前 sed 替换为 sha[:7]（构建期固定）。
     originImageName: ghcr.io/vlee0203/proxy-service:IMAGE_TAG
   labels:
     app: dify-marketplace-proxy
@@ -30,15 +29,12 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: dify-marketplace-proxy
-          # IMAGE_TAG 由 CI job2 sed 替换；sealos build 时从 ghcr.io 拉取打包进 registry/（自包含）。
           image: ghcr.io/vlee0203/proxy-service:IMAGE_TAG
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
-          # {{ .target }} / {{ .httpsProxy }} 由 sealos run 时 MountRootfs 用 ENV 渲染 .tmpl 注入
-          # （Kubefile ENV 提供默认值，sealos run --env 可覆盖）。
           env:
             - name: TARGET
               value: "{{ .target }}"

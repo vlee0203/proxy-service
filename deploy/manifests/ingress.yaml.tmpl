@@ -14,7 +14,6 @@ metadata:
   name: dify-marketplace-proxy
 spec:
   rules:
-    # {{ .cloudDomain }} 由 sealos run 时用 ENV 渲染（sealos run --env cloudDomain=<域名>）。
     - host: dify-marketplace-proxy.{{ .cloudDomain }}
       http:
         paths:
