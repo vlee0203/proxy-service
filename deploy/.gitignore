@@ -1,0 +1,3 @@
+images/skopeo/*.tar
+registry/*
+!registry/.gitkeep
